@@ -9,8 +9,10 @@
     .target { background-color:red;}
 </style>
 <ul>
+    <th:block th:each="dto: ${list}">
     <li th:each="dto, state : ${list}" th:class="${dto.sno % 5 == 0}?'target'" th:text="${dto}">
     </li>
+    </th:block>
 </ul>
 </body>
 </html>
