@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HOME exLink</title>
+</head>
+<body>
+<ul>
+    <li th:each="dto : ${list}">
+        <!--
+        <a th:href="@{/sample/exView(sno=${dto.sno})}">[[${dto}]]</a> -->
+        <!-- /exLink/3과 같이 sno를 path로 이용하고 싶다면 다음과 같이 처리한다 -->
+        <a th:href="@{/sample/exView/{sno}(sno = ${dto.sno})}">[[${dto}]]</a>
+
+    </li>
+</ul>
+</body>
+</html>
