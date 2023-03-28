@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+    <th:block th:fragment = "content">
+        <h1 class="mt-4">Guestbook Modify Page</h1>
+        <!-- 수정/삭제 작업을 post 방식으로 처리하므로 <form> 태그로 감싸준다-->
+        <form action="/guestbook/modify" method="post">
+            <div class="form-group">
+                <label>Gno</label>
+                <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
+            </div>
+            <!--title 수정 가능 -->
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" name="title" th:value="${dto.title}">
+            </div>
+            <div class="form-group">
+                <label>Content</label>
+                <input type="text" class="form-control" name="content" th:value="${dto.content}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Writer</label>
+                <input type="text" class="form-control" name="writer" th:value="${dto.writer}" readonly>
+            </div>
+            <!-- 날짜 부분은 수정도 불가하고 JPA에서 자동처리 되므로 name 속성 없이 작성 -->
+            <div class="form-group">
+                <label>RegDate</label>
+                <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
+            <div class="form-group">
+                <label>ModDate</label>
+                <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
+            <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page})}">
+                <button type="button" class="btn btn-info">LIST</button></a>
+        </form>
+        <button type="button" class="btn btn-primary modifyBtn">Modify</button>
+        <button type="button" class="btn btn-info listBtn">List</button>
+        <button type="button" class="btn btn-danger removeBtn">Remove</button>
+        <script th:inline="javascript">
+            var actionForm = $("form");
+            $(".removeBtn").click(function(){
+                actionForm.attr("action","/guestbook/remove").attr("method","post");
+                actionForm.submit();
+            });
+        </script>
+    </th:block>
+</th:block>
+</html>
