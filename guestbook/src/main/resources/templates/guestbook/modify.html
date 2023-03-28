@@ -5,6 +5,8 @@
         <h1 class="mt-4">Guestbook Modify Page</h1>
         <!-- 수정/삭제 작업을 post 방식으로 처리하므로 <form> 태그로 감싸준다-->
         <form action="/guestbook/modify" method="post">
+            <!-- 페이지 번호 -->
+            <input type="hidden" name="page" th:value="${requestDTO.page}">
             <div class="form-group">
                 <label>Gno</label>
                 <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
@@ -31,8 +33,6 @@
                 <label>ModDate</label>
                 <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
             </div>
-            <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page})}">
-                <button type="button" class="btn btn-info">LIST</button></a>
         </form>
         <button type="button" class="btn btn-primary modifyBtn">Modify</button>
         <button type="button" class="btn btn-info listBtn">List</button>
@@ -42,7 +42,26 @@
             $(".removeBtn").click(function(){
                 actionForm.attr("action","/guestbook/remove").attr("method","post");
                 actionForm.submit();
+
             });
+            $(".modifyBtn").click(function(){
+
+                if(!confirm("수정하시겠습니까?")){
+                    return;
+                }
+                actionForm.attr("action","/guestbook/modify").attr("method","post").submit();
+            });
+            $(".listBtn").click(function(){
+
+                var pageInfo = $("input[name='page]");
+
+                actionForm.empty();
+                actionForm.append(pageInfo);
+                actionForm.attr("action","/guestbook/list").attr("method","get")
+                console.log(actionForm.html()); // 학인 후 주석처리
+                actionForm.submit();  // 확인 후 주석 해제
+            });
+
         </script>
     </th:block>
 </th:block>
