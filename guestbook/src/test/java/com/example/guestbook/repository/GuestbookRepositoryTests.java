@@ -3,6 +3,7 @@ package com.example.guestbook.repository;
 import com.example.guestbook.entity.Guestbook;
 import com.example.guestbook.entity.QGuestbook;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 public class GuestbookRepositoryTests {
     @Autowired
     private GuestbookRepository guestbookRepository;
+
     @Test
     public void insertDummies(){
         IntStream.rangeClosed(1,300).forEach(i -> {
@@ -34,7 +35,7 @@ public class GuestbookRepositoryTests {
 
     @Test
     public void updateTest(){
-        Optional<Guestbook> result = guestbookRepository.findById(10L);
+        Optional<Guestbook> result = guestbookRepository.findById(298L);
         if(result.isPresent()){
             Guestbook guestbook = result.get();
             guestbook.changeTitle("Changed Title ..... ");
@@ -54,21 +55,10 @@ public class GuestbookRepositoryTests {
         BooleanBuilder builder = new BooleanBuilder();
         BooleanExpression expression = qGuestbook.title.contains(keyword);
         builder.and(expression);
-        /*
         Page<Guestbook> result = guestbookRepository.findAll(builder, pageable);
         result.stream().forEach(guestbook -> {
             System.out.println(guestbook);
         });
-*/
-        try{
-            Page<Guestbook> result = guestbookRepository.findAll(builder, pageable);
-            result.stream().forEach(guestbook -> {
-                System.out.println(guestbook);
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println(e);
-        }
     }
 
     // 같은 에러

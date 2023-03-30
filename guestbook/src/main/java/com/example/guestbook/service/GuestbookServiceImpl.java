@@ -96,4 +96,6 @@ public class GuestbookServiceImpl implements GuestbookService {
 
         return booleanBuilder;
     }
+
+
 }
